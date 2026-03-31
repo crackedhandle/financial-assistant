@@ -168,7 +168,7 @@ financial-assistant/
 - Python 3.10 or higher
 - A free Google Gemini API key from [aistudio.google.com](https://aistudio.google.com)
 
-### Step 1 — Clone the repository
+### Step 1 - Clone the repository
 
 ```bash
 git clone https://github.com/crackedhandle/financial-assistant.git
