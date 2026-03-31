@@ -1,0 +1,10 @@
+{
+  "owner": "Divyansh Shah",
+  "holdings": [
+    {"ticker": "AAPL", "quantity": 10, "avg_buy_price": 150.00},
+    {"ticker": "GOOGL", "quantity": 5, "avg_buy_price": 2800.00},
+    {"ticker": "TSLA", "quantity": 8, "avg_buy_price": 220.00},
+    {"ticker": "NVDA", "quantity": 15, "avg_buy_price": 400.00},
+    {"ticker": "MSFT", "quantity": 12, "avg_buy_price": 310.00}
+  ]
+}
