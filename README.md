@@ -1,130 +1,211 @@
-\# Financial Assistant AI Agent
+# Dialysis Dashboard
 
+A small, testable, event-driven monitoring system for dialysis units — built with **Express + TypeScript** (backend) and **React + Vite + TypeScript** (frontend).
 
+---
 
-An AI-powered financial assistant with multi-agent architecture and guardrails built using Google Gemini and Python.
+## 📁 Project Structure
 
+```
+dialysis-dashboard/
+├─ backend/                  # Express + TypeScript API
+│  ├─ src/
+│  │  ├─ config/
+│  │  │  └─ clinical.config.ts
+│  │  ├─ domain/             # Mongoose models (patient, session, schedule)
+│  │  ├─ routes/             # patient.routes.ts, schedule.routes.ts, session.routes.ts
+│  │  ├─ services/           # anomaly.service.ts (business logic)
+│  │  ├─ seed.ts
+│  │  ├─ app.ts
+│  │  └─ server.ts
+│  ├─ package.json
+│  └─ tests/                 # Jest tests (anomaly + API)
+├─ frontend/                 # Vite + React + TypeScript UI
+│  ├─ src/
+│  │  ├─ components/
+│  │  ├─ api/client.ts       # Axios client
+│  │  ├─ types/types.ts
+│  │  ├─ App.tsx
+│  │  └─ main.tsx
+│  ├─ package.json
+│  └─ vitest.config.ts       # UI tests
+├─ README.pdf                # Project summary (same content)
+└─ README.md                 # This file
+```
 
+---
 
-\## Features
+## 🚀 Quick Start
 
-\- Real-time stock price fetching via yfinance
-
-\- Investment reasoning with chain-of-thought
-
-\- Portfolio analysis
-
-\- Financial news retrieval
-
-\- Multi-agent system: Planner → Executor → Critic
-
-\- 3-layer guardrail system
-
-
-
-\## Guardrails
-
-| Type | What it does |
-
-|------|-------------|
-
-| Input | Blocks prompt injection, harmful queries, off-topic requests |
-
-| Output | Blocks misleading guarantees, hallucinations, unsafe claims |
-
-| Behavioral | Restricts agent to finance domain only |
-
-
-
-\## Architecture
-
-User → Input Guardrail → Planner Agent → Executor Agent (Tools) → Critic Agent → Output Guardrail → Response
-
-
-
-\## Setup Instructions
-
-
-
-\### Prerequisites
-
-\- Python 3.10+
-
-\- Google Gemini API key (free at aistudio.google.com)
-
-
-
-\### Installation
+### 1. Clone the repository
 
 ```bash
-
-git clone <your-repo-url>
-
-cd financial-assistant
-
-python -m venv venv
-
-venv\\Scripts\\activate
-
-pip install -r requirements.txt
-
+git clone https://github.com/crackedhandle/dialysis-dashboard.git
+cd dialysis-dashboard
 ```
 
-
-
-\### Configuration
-
-Create a `.env` file:
-
-```
-
-GEMINI\_API\_KEY=your\_key\_here
-
-```
-
-
-
-\### Run
+### 2. Backend — install, seed & run
 
 ```bash
-
-python -m src.main
-
+cd backend
+npm install
+# Create .env file (see Environment Variables section below)
+npm run seed
+npm run dev
 ```
 
-
-
-\### Run Tests
+### 3. Frontend — install & run
 
 ```bash
-
-python evaluation/test\_cases.py
-
+cd frontend
+npm install
+npm run dev
 ```
 
+### 4. Open in browser
 
+| Service | URL |
+|---|---|
+| Backend OpenAPI / Swagger | http://localhost:5000/docs |
+| Frontend UI | http://localhost:5173 |
 
-\## Example Queries
+---
 
-\- "What is the price of AAPL?"
+## ⚙️ Environment Variables
 
-\- "Should I invest in NVDA?"
+Create a `.env` file inside the `backend/` folder:
 
-\- "Show me my portfolio"
+```env
+MONGO_URI="mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/dialysis?retryWrites=true&w=majority"
+PORT=5000
+```
 
-\- "If I bought 10 shares of TSLA at $200 and now it is $250 what is my profit?"
+---
 
+## 🪟 Windows (PowerShell) Commands
 
+### Backend
 
-\## Tech Stack
+```powershell
+cd C:\path\to\dialysis-dashboard\backend
 
-\- Python 3.10
+npm install          # Install dependencies
+npm run seed         # Seed example data
+npm run dev          # Start dev server (hot reload) on port 5000
+```
 
-\- Google Gemini 2.5 Flash
+### Frontend
 
-\- yfinance
+```powershell
+cd C:\path\to\dialysis-dashboard\frontend
 
-\- LangChain
+npm install          # Install dependencies
+npm run dev          # Start Vite dev server on port 5173
+```
 
-\- python-dotenv
+---
 
+## 📖 API Reference
+
+Swagger UI is available after starting the backend:
+
+> **http://localhost:5000/docs**
+
+You can test endpoints directly from the Swagger page, or via PowerShell:
+
+```powershell
+Invoke-RestMethod "http://localhost:5000/schedule/today?unitId=U1" | ConvertTo-Json -Depth 6
+```
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/health` | Simple health-check |
+| `GET` | `/schedule/today?unitId=U1` | Returns today's schedule for unit U1 |
+| `POST` | `/sessions` | Create a dialysis session |
+
+### `POST /sessions` — Example Request Body
+
+```json
+{
+  "patientId": "69a3e480493547850cfc773c",
+  "unitId": "U1",
+  "startTime": "2026-03-01T07:02:25.437Z",
+  "endTime": "2026-03-01T11:02:25.437Z",
+  "preWeightKg": 74,
+  "postWeightKg": 69,
+  "systolicBP": 170,
+  "diastolicBP": 90,
+  "machineId": "M1"
+}
+```
+
+---
+
+## 🏥 Clinical Assumptions & Configuration
+
+All thresholds are **explicit and centralized** in:
+
+```
+backend/src/config/clinical.config.ts
+```
+
+```ts
+export const ClinicalConfig = {
+  // Maximum allowed interdialytic weight gain (% of dry weight)
+  maxInterdialyticGainPercent: 5,       // 5%
+
+  // High post-dialysis systolic blood pressure threshold
+  maxPostDialysisSystolicBP: 160,       // 160 mmHg
+
+  // Target session duration and tolerance
+  targetDurationMinutes: 240,           // 4 hours
+  durationTolerancePercent: 0.25,       // ±25% → allowed: 180–300 minutes
+};
+```
+
+No magic numbers anywhere else in the codebase — changing a threshold here propagates everywhere automatically.
+
+---
+
+## 🌱 Seed Script
+
+The seed script populates the database with example patients and sessions for local development.
+
+**Location:** `backend/src/seed.ts`
+
+```bash
+# Run from inside the backend/ folder
+npm run seed
+```
+
+**What it creates:**
+
+- **Patients:** Rahul Sharma, Anita Verma
+- **Schedule entries** for today with `unitId = U1`
+- **One session for Rahul** that includes anomalies:
+  - Excess interdialytic weight gain
+  - High post-dialysis systolic BP
+
+To re-seed later (reset + regenerate sample data), simply run `npm run seed` again.
+
+---
+
+## 🔖 Git & Release Workflow
+
+Use small atomic commits while developing:
+
+```bash
+git add .
+git commit -m "feat(backend): add anomaly detection logic + tests"
+git commit -m "feat(seed): add example seed data for U1 unit"
+git commit -m "feat(frontend): initial dashboard and session modal"
+```
+
+When ready to release:
+
+```bash
+git tag v1.0
+git push origin main --tags
+```
