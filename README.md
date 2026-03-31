@@ -251,7 +251,7 @@ what is the recipe for pasta?           ← off-topic
 ## Demo Video
 
 ### Watch the full demo here:
- **[Click to watch Demo Video](./DEMO_VIDEO)**
+ **[Click to watch Demo Video](https://www.loom.com/share/ca93ff7b6fb348d9bc680eaa2100acea)**
 
 > The demo covers:
 > - Normal flow: stock price query, investment reasoning, portfolio analysis
