@@ -175,7 +175,7 @@ git clone https://github.com/crackedhandle/financial-assistant.git
 cd financial-assistant
 ```
 
-### Step 2 — Create virtual environment
+### Step 2 - Create virtual environment
 
 ```bash
 # Windows
@@ -187,13 +187,13 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### Step 3 — Install dependencies
+### Step 3 - Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Step 4 — Configure API key
+### Step 4 - Configure API key
 
 Create a `.env` file in the root directory:
 
@@ -203,13 +203,13 @@ GEMINI_API_KEY=your_gemini_api_key_here
 
 Get your free key at: https://aistudio.google.com/app/apikey
 
-### Step 5 — Run the assistant
+### Step 5 - Run the assistant
 
 ```bash
 python -m src.main
 ```
 
-### Step 6 — Run evaluation tests
+### Step 6 - Run evaluation tests
 
 ```bash
 python -m evaluation.test_cases
