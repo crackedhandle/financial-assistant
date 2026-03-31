@@ -1,10 +1,10 @@
-# 💹 Financial Assistant AI Agent
+#  Financial Assistant AI Agent
 
 > An intelligent, multi-agent financial assistant powered by Google Gemini with a robust 3-layer guardrail system — built as part of an AI Engineering Internship Assignment.
 
 ---
 
-## 📌 Table of Contents
+##  Table of Contents
 
 - [Overview](#overview)
 - [Architecture](#architecture)
