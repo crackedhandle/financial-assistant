@@ -77,7 +77,7 @@ Final Response to User
 
 ## Guardrail System
 
-The system implements **3 mandatory guardrail types** as required by the assignment:
+The system implements **3 mandatory guardrail types**:
 
 ### 1. Input Guardrails (`src/guardrails/input_guard.py`)
 
